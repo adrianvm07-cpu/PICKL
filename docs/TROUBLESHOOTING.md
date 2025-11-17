@@ -716,8 +716,6 @@ echo %TAGS%  # Windows
 
 ---
 
-## 📘 TypeScript Errors
-
 ---
 
 ## TypeScript Errors
