@@ -263,6 +263,7 @@ The `main` branch is protected with the following rules:
    npm run format        # Format code
    npm test              # Run all tests
    npm run test:smoke    # Run smoke tests
+   npm run clean:all     # Clean up artifacts (optional)
    ```
 6. **Commit and push your branch**:
    ```bash

@@ -5,6 +5,7 @@
   "description": "A boilerplate project that integrates Playwright with Cucumber/Gherkin for BDD test automation",
   "scripts": {
     "clean": "node -e \"require('fs').rmSync('test-results', {recursive: true, force: true})\"",
+    "clean:all": "tsx scripts/cleanup.ts",
     "test": "node scripts/run-test.ts",
     "test:chromium": "cross-env BROWSER=chromium npm test",
     "test:firefox": "cross-env BROWSER=firefox npm test",

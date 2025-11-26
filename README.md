@@ -86,6 +86,9 @@ npm test -- test/features/login.feature
 
 # Generate report
 npm run report
+
+# Clean up artifacts and caches
+npm run clean:all
 ```
 
 ## 📦 Tech Stack

@@ -1035,14 +1035,42 @@ test-results/
 **A**:
 
 ```bash
-# Use clean script
+# Quick clean (test-results only)
 npm run clean
+
+# Deep clean (all artifacts and caches)
+npm run clean:all
 
 # Or manually
 rm -rf test-results
 
 # Then run tests
 npm test
+```
+
+**What does `clean:all` remove?**
+- `test-results/` - Test execution results
+- `node_modules/.cache/` - Node modules cache
+- `playwright-report/` - Playwright HTML reports
+- `.playwright/` - Playwright cache
+- `coverage/` - Code coverage reports
+- `.nyc_output/` - NYC coverage data
+- `downloads/` - Downloaded test files
+
+---
+
+### Q: How do I free up disk space?
+
+**A**:
+
+If your project is taking up too much disk space:
+
+```bash
+# Clean all temporary files and caches
+npm run clean:all
+
+# This removes all test artifacts, caches, and temporary files
+# Safe to run anytime - it won't delete source code or dependencies
 ```
 
 ---
