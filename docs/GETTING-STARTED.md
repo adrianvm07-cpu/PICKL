@@ -91,6 +91,8 @@ Now that you have PICKL set up, here are your next steps:
 
 **For Test Writers**: Review [Writing Tests](WRITING-TESTS.md) for Gherkin syntax and [API Reference](API-REFERENCE.md) for available Page Objects.
 
+**New to BDD?**: Check out the [Glossary](GLOSSARY.md) to familiarize yourself with BDD, Playwright, and testing terminology.
+
 **Need Help?**: Check [Common Mistakes](COMMON-MISTAKES.md) to avoid pitfalls and [Troubleshooting](TROUBLESHOOTING.md) if you encounter issues.
 
 ---
@@ -115,6 +117,7 @@ You didn't find the answer you were looking for? Check the [Troubleshooting Guid
 
 - [Running Tests](RUNNING-TESTS.md) - Complete guide to executing tests with various options
 - [Writing Tests](WRITING-TESTS.md) - Learn Gherkin syntax and create feature files
+- [Glossary](GLOSSARY.md) - BDD, Playwright, and testing terminology reference
 - [Learning Path](LEARNING-PATH.md) - Follow a structured 4-week training curriculum
 - [Contributing Guide](CONTRIBUTING.md) - Guidelines for contributing to PICKL
 - [Troubleshooting](TROUBLESHOOTING.md) - Solutions for common setup and execution issues
