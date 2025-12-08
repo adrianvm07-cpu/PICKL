@@ -167,6 +167,21 @@ npm test
 npm run report
 ```
 
+**Git Hooks Setup:**
+
+Git hooks are automatically installed when you run `npm install` (via the `prepare` script). These hooks will:
+
+- Prevent direct commits to the `main` branch
+- Run linting and formatting on staged files before commits
+- Validate commit message format
+
+To verify hooks are installed:
+
+```bash
+ls -la .husky/
+# Should see: pre-commit, commit-msg
+```
+
 ### VS Code Extensions
 
 Install the recommended extensions for the best development experience (see [Getting Started - Extensions](GETTING-STARTED.md#5-finishing-touches)):
@@ -983,6 +998,50 @@ npm run lint -- --fix
 
 # Format code with Prettier
 npm run format
+```
+
+**Automated Git Hooks:**
+
+This project uses Husky to automatically run quality checks before commits. The following hooks are configured:
+
+1. **Pre-commit Hook** - Runs automatically when you commit:
+   - ✅ Prevents direct commits to `main`/`master` branches
+   - ✅ Runs ESLint with auto-fix on staged `.js`/`.ts` files
+   - ✅ Runs Prettier on staged files (`.js`, `.ts`, `.json`, `.md`)
+   - ❌ Blocks commit if checks fail
+
+2. **Commit-msg Hook** - Validates commit message format:
+   - ✅ Enforces [Conventional Commits](https://www.conventionalcommits.org/) format
+   - ✅ Required format: `<type>(<scope>): <subject>`
+   - ✅ Valid types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `build`, `ci`, `perf`, `revert`, `merge`
+   - ❌ Blocks commit if message format is invalid
+
+**Examples of valid commit messages:**
+
+```bash
+git commit -m "feat(login): add remember me checkbox"
+git commit -m "fix(api): resolve timeout issue"
+git commit -m "docs(readme): update installation steps"
+git commit -m "test(checkboxes): add negative scenarios"
+```
+
+**What happens if you try to commit to main:**
+
+```bash
+$ git commit -m "feat: my changes"
+❌ Direct commits to 'main' branch are not allowed!
+
+💡 Please create a feature branch instead:
+   git checkout -b feat/your-feature-name
+
+📚 See docs/BRANCHING-STRATEGY.md for branch naming conventions
+```
+
+**Bypassing hooks (not recommended):**
+
+```bash
+# Use --no-verify to skip hooks (only for emergencies)
+git commit --no-verify -m "emergency fix"
 ```
 
 ### Code Review Checklist

@@ -1,0 +1,13 @@
+# Check if committing to protected branches
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
+  echo "❌ Direct commits to '$branch' branch are not allowed!"
+  echo ""
+  echo "💡 Please create a feature branch instead."
+  echo "📚 See docs/BRANCHING-STRATEGY.md for branch naming conventions"
+  exit 1
+fi
+
+# Run lint-staged to check and fix staged files
+npx lint-staged
