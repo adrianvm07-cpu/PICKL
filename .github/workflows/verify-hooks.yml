@@ -94,6 +94,10 @@ jobs:
         run: |
           echo "🧪 Testing pre-commit hook behavior..."
 
+          # Configure git user for CI
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
           # Create a test file
           echo "// test file" > test-hook-verification.js
           git add test-hook-verification.js
