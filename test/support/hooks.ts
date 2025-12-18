@@ -74,6 +74,7 @@ After(async function (this: ICustomWorld, { pickle, result }) {
   await context?.tracing.stop({ path: tracePath })
 
   // Attach artifacts on failure
+  let pageClosedEarly = false
   if (result?.status === Status.FAILED) {
     // Screenshot with descriptive name
     if (page) {
@@ -92,6 +93,7 @@ After(async function (this: ICustomWorld, { pickle, result }) {
       try {
         // Close the page first to ensure video is saved
         await page?.close()
+        pageClosedEarly = true
         const videoPath = await video.path()
         const videoBuffer = await readFile(videoPath)
         this.attach(videoBuffer, 'video/webm')
@@ -106,7 +108,7 @@ After(async function (this: ICustomWorld, { pickle, result }) {
   }
 
   // Cleanup
-  if (!video || process.env.HEADLESS === 'false') {
+  if (!pageClosedEarly) {
     await page?.close()
   }
   await context?.close()
