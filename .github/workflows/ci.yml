@@ -498,6 +498,9 @@ jobs:
               .replace(/\$\{GITHUB_REPOSITORY\}/g, context.repo.owner + '/' + context.repo.repo)
               .replace(/\$\{GITHUB_RUN_ID\}/g, context.runId);
 
+            // Remove old "Test Results" header lines
+            comment = comment.replace(/^##?\s*[✅❌]?\s*Test Results.*$/m, '').trim();
+
             // Determine test status
             const isPassed = testOutcome === 'success';
             const statusEmoji = isPassed ? '✅' : '❌';
