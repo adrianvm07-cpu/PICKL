@@ -255,25 +255,39 @@ jobs:
           # Check the cucumber report to verify only the @fail test failed
           if [ ! -f test-results/cucumber-report.json ]; then
             echo "❌ Error: cucumber-report.json not found"
+            echo ""
+            echo "This could indicate:"
+            echo "  1. Test execution failed before generating the report"
+            echo "  2. Report generation failed during test execution"
+            echo "  3. Tests didn't run at all"
+            echo ""
+            echo "💡 Troubleshooting:"
+            echo "  - Check the 'Run tests with coverage' step logs above for errors"
+            echo "  - Verify that test-results/ directory was created"
+            echo "  - Check if the test execution completed successfully"
+            echo "  - Review any Cucumber or Playwright error messages"
             exit 1
           fi
 
           # Parse the report to count failures
           TOTAL_SCENARIOS=$(jq '[.[] | .elements[]] | length' test-results/cucumber-report.json)
           FAILED_SCENARIOS=$(jq '[.[] | .elements[] | select(.steps[]?.result.status == "failed")] | length' test-results/cucumber-report.json)
-          FAILED_NAMES=$(jq -r '[.[] | .elements[] | select(.steps[]?.result.status == "failed") | .name] | join(", ")' test-results/cucumber-report.json)
+          FAIL_TAGGED=$(jq '[.[] | .elements[] | select(.tags[]?.name == "@fail")] | length' test-results/cucumber-report.json)
+          FAILED_WITHOUT_FAIL_TAG=$(jq '[.[] | .elements[] | select(.steps[]?.result.status == "failed" and ([.tags[]?.name] | contains(["@fail"]) | not))] | length' test-results/cucumber-report.json)
 
           echo "📊 Test Results:"
           echo "  Total scenarios: $TOTAL_SCENARIOS"
           echo "  Failed scenarios: $FAILED_SCENARIOS"
+          echo "  @fail tagged scenarios: $FAIL_TAGGED"
 
           if [ "$FAILED_SCENARIOS" -eq 0 ]; then
             echo "✅ All tests passed (no failures)"
-          elif [ "$FAILED_SCENARIOS" -eq 1 ] && echo "$FAILED_NAMES" | grep -q "Intentional failing test for demonstration"; then
-            echo "✅ Only the expected @fail test failed: $FAILED_NAMES"
+          elif [ "$FAILED_WITHOUT_FAIL_TAG" -eq 0 ]; then
+            echo "✅ Only @fail tagged tests failed (expected behavior)"
           else
-            echo "❌ Unexpected test failures detected: $FAILED_NAMES"
-            echo "Expected only 'Intentional failing test for demonstration' to fail"
+            echo "❌ Unexpected test failures detected!"
+            echo "   $FAILED_WITHOUT_FAIL_TAG test(s) without @fail tag failed"
+            jq -r '[.[] | .elements[] | select(.steps[]?.result.status == "failed" and ([.tags[]?.name] | contains(["@fail"]) | not)) | .name] | join("\n  - ")' test-results/cucumber-report.json | sed 's/^/  - /'
             exit 1
           fi
 

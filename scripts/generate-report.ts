@@ -1,7 +1,7 @@
-import { generate } from 'cucumber-html-reporter'
 import { exec } from 'child_process'
+import { generate } from 'cucumber-html-reporter'
+import { existsSync, readFileSync, rmSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
-import { rmSync, existsSync, readFileSync, writeFileSync } from 'fs'
 
 const options = {
   theme: 'bootstrap' as const,
@@ -60,97 +60,97 @@ if (existsSync(reportFile)) {
     background-color: #1e1e1e !important;
     color: #d4d4d4 !important;
   }
-  
+
   .navbar, .navbar-default {
     background-color: #2d2d30 !important;
     border-color: #3e3e42 !important;
   }
-  
+
   .navbar-brand, .navbar-nav > li > a {
     color: #d4d4d4 !important;
   }
-  
+
   .panel, .panel-default {
     background-color: #252526 !important;
     border-color: #3e3e42 !important;
   }
-  
+
   .panel-heading {
     background-color: #2d2d30 !important;
     border-color: #3e3e42 !important;
     color: #d4d4d4 !important;
   }
-  
+
   .panel-body {
     background-color: #1e1e1e !important;
     color: #d4d4d4 !important;
   }
-  
+
   .table {
     background-color: #252526 !important;
     color: #d4d4d4 !important;
   }
-  
+
   .table > thead > tr > th,
   .table > tbody > tr > td {
     border-color: #3e3e42 !important;
     color: #d4d4d4 !important;
   }
-  
+
   .table-striped > tbody > tr:nth-of-type(odd) {
     background-color: #2d2d30 !important;
   }
-  
+
   .label {
     background-color: #3e3e42 !important;
     color: #d4d4d4 !important;
   }
-  
+
   .label-success {
     background-color: #107c10 !important;
   }
-  
+
   .label-danger {
     background-color: #c50f1f !important;
   }
-  
+
   .label-warning {
     background-color: #ca5010 !important;
   }
-  
+
   .label-info {
     background-color: #0078d4 !important;
   }
-  
+
   a {
     color: #4ec9b0 !important;
   }
-  
+
   a:hover {
     color: #6fd4bd !important;
   }
-  
+
   pre {
     background-color: #1e1e1e !important;
     border-color: #3e3e42 !important;
     color: #d4d4d4 !important;
   }
-  
+
   code {
     background-color: #2d2d30 !important;
     color: #ce9178 !important;
   }
-  
+
   .well {
     background-color: #252526 !important;
     border-color: #3e3e42 !important;
   }
-  
+
   .jumbotron {
     background-color: #252526 !important;
     color: #d4d4d4 !important;
   }
-  
+
   #darkModeToggle {
     color: #d4d4d4 !important;
     background-color: transparent !important;
@@ -166,14 +166,14 @@ if (existsSync(reportFile)) {
     localStorage.setItem('darkMode', isDark ? 'false' : 'true');
     updateToggleButton(!isDark);
   }
-  
+
   function updateToggleButton(isDark) {
     const button = document.getElementById('darkModeToggle');
     if (button) {
       button.textContent = isDark ? '☀️ Switch to Light mode' : '🌙 Switch to Dark mode';
     }
   }
-  
+
   // Load saved preference
   document.addEventListener('DOMContentLoaded', function() {
     const darkMode = localStorage.getItem('darkMode') === 'true';

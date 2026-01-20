@@ -1,7 +1,7 @@
-import { Given, When, Then } from '@cucumber/cucumber'
+import { Given, Then, When } from '@cucumber/cucumber'
 import { expect } from '@playwright/test'
-import { ICustomWorld } from '../support/world.js'
 import { LoginPage } from '../../pages/LoginPage.js'
+import { ICustomWorld } from '../support/world.js'
 
 Given('I am on the login page', async function (this: ICustomWorld) {
   if (!this.page) {
