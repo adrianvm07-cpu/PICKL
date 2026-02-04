@@ -1,6 +1,6 @@
 import { Given, Then, When } from '@cucumber/cucumber'
 import { expect } from '@playwright/test'
-import { LoginPage } from '../../pages/LoginPage.js'
+import { LoginPage } from '../../pages/sauce.LoginPage.js'
 import { ICustomWorld } from '../support/world.js'
 
 Given('I am on the login page', async function (this: ICustomWorld) {
@@ -39,39 +39,39 @@ When('I click the login button', async function (this: ICustomWorld) {
   await loginPage.clickLogin()
 })
 
-Then('I should see the secure area page', async function (this: ICustomWorld) {
-  if (!this.page) {
-    throw new Error('Page is not initialized')
-  }
-
-  const loginPage = new LoginPage(this.page)
-  const isSecureArea = await loginPage.isOnSecureArea()
-  expect(isSecureArea).toBeTruthy()
-})
-
 Then(
-  'I should see a success message {string}',
-  async function (this: ICustomWorld, expectedMessage: string) {
+  'I check if the {string} heading is displayed',
+  async function (this: ICustomWorld, pageHeading: string) {
     if (!this.page) {
       throw new Error('Page is not initialized')
     }
 
+    //current format
+
+    // 2. Initialize the Page Object
     const loginPage = new LoginPage(this.page)
-    const flashMessage = await loginPage.getFlashMessage()
-    expect(flashMessage).toContain(expectedMessage)
+
+    // 3. Get the value from your helper function
+    const heading = await loginPage.getPageHeading()
+
+    // 4. Perform the validation
+    // Note: Using 'Products' (plural) to match SauceDemo's actual UI
+    expect(heading).toBe(pageHeading)
   },
 )
 
 Then(
   'I should see an error message {string}',
-  async function (this: ICustomWorld, expectedMessage: string) {
+  async function (this: ICustomWorld, errorMessage: string) {
     if (!this.page) {
       throw new Error('Page is not initialized')
     }
-
+    //Existing format
     const loginPage = new LoginPage(this.page)
-    const flashMessage = await loginPage.getFlashMessage()
-    expect(flashMessage).toContain(expectedMessage)
+    const errmsg = await loginPage.getErrorMessage()
+    expect(errmsg).toBe(errorMessage)
+    //console.log('Error message is:', errorMessage)
+    //expect(errmsg).toBe('Test')
   },
 )
 
@@ -79,8 +79,6 @@ Then('I should remain on the login page', async function (this: ICustomWorld) {
   if (!this.page) {
     throw new Error('Page is not initialized')
   }
-
-  const loginPage = new LoginPage(this.page)
-  const isLoginPage = await loginPage.isOnLoginPage()
-  expect(isLoginPage).toBeTruthy()
+  await expect(this.page).toHaveURL('https://www.saucedemo.com/')
+  //console.log('Current URL is:', this.page.url())
 })
