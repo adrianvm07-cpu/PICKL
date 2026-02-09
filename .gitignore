@@ -35,3 +35,9 @@ Thumbs.db
 # Temporary Files
 *.tmp
 .cache/
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
