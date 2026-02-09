@@ -91,8 +91,8 @@ Then('I can see the product description', async function (this: ICustomWorld) {
   await inventoryPage.verifyDescriptionIsVisible()
 
   // 2. Optional: Log the text to your console for debugging
-  const text = await inventoryPage.getDescriptionText()
-  console.log(` Validated description:  ${text}`)
+  //nst text = await inventoryPage.getDescriptionText()
+  //console.log(` Validated description:  ${text}`)
 })
 
 Then('I can click on the Add to Cart button', async function (this: ICustomWorld) {

@@ -23,7 +23,7 @@ export class LoginPage {
 
   // 1. Navigate to the site
   async goto() {
-    await this.page.goto('https://www.saucedemo.com/')
+    await this.page.goto('/')
   }
 
   /**
@@ -62,16 +62,11 @@ export class LoginPage {
     // 1. Locate the element
     // 2. Extract the text content
     // 3. Return it (or an empty string if null)
-    const headingText = await this.page.locator('.title').textContent()
+    const headingText = await this.page.locator('[data-test="title"]').textContent()
     return headingText ?? ''
   }
 
   // Invalid Login - validate error message is displayed
-
-  //AI Generated
-  /*get errorContainer() {
-    return this.page.locator('[data-test="error"]')
-  }*/
 
   //Existing format
   async getErrorMessage(): Promise<string> {

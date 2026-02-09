@@ -46,7 +46,7 @@ Then(
       throw new Error('Page is not initialized')
     }
 
-    //current format
+    //Existing format
 
     // 2. Initialize the Page Object
     const loginPage = new LoginPage(this.page)
@@ -55,7 +55,6 @@ Then(
     const heading = await loginPage.getPageHeading()
 
     // 4. Perform the validation
-    // Note: Using 'Products' (plural) to match SauceDemo's actual UI
     expect(heading).toBe(pageHeading)
   },
 )
@@ -70,6 +69,8 @@ Then(
     const loginPage = new LoginPage(this.page)
     const errmsg = await loginPage.getErrorMessage()
     expect(errmsg).toBe(errorMessage)
+
+    //** Additional validation for retrieved field
     //console.log('Error message is:', errorMessage)
     //expect(errmsg).toBe('Test')
   },
@@ -80,5 +81,7 @@ Then('I should remain on the login page', async function (this: ICustomWorld) {
     throw new Error('Page is not initialized')
   }
   await expect(this.page).toHaveURL('https://www.saucedemo.com/')
+
+  //** Additional validation for target URL
   //console.log('Current URL is:', this.page.url())
 })
