@@ -1,44 +1,21 @@
 import { Given, Then, When } from '@cucumber/cucumber'
 import { expect } from '@playwright/test'
-import { LoginPage } from '../../pages/sauce.LoginPage.js'
+import { InventoryPage } from '../../pages/AddToCartPage.js'
 import { ICustomWorld } from '../support/world.js'
 
-Given('I am on the login page', async function (this: ICustomWorld) {
+Given('I am able to login successfully', async function (this: ICustomWorld) {
   if (!this.page) {
     throw new Error('Page is not initialized')
   }
 
-  const loginPage = new LoginPage(this.page)
-  await loginPage.goto()
+  const inventoryPage = new InventoryPage(this.page)
+  await inventoryPage.goto()
+  await inventoryPage.enterUsername()
+  await inventoryPage.enterPassword()
+  await inventoryPage.clickLogin()
 })
 
-When('I enter username {string}', async function (this: ICustomWorld, username: string) {
-  if (!this.page) {
-    throw new Error('Page is not initialized')
-  }
-
-  const loginPage = new LoginPage(this.page)
-  await loginPage.enterUsername(username)
-})
-
-When('I enter password {string}', async function (this: ICustomWorld, password: string) {
-  if (!this.page) {
-    throw new Error('Page is not initialized')
-  }
-
-  const loginPage = new LoginPage(this.page)
-  await loginPage.enterPassword(password)
-})
-
-When('I click the login button', async function (this: ICustomWorld) {
-  if (!this.page) {
-    throw new Error('Page is not initialized')
-  }
-
-  const loginPage = new LoginPage(this.page)
-  await loginPage.clickLogin()
-})
-
+/*
 Then(
   'I check if the {string} heading is displayed',
   async function (this: ICustomWorld, pageHeading: string) {
@@ -74,11 +51,55 @@ Then(
     //expect(errmsg).toBe('Test')
   },
 )
-
-Then('I should remain on the login page', async function (this: ICustomWorld) {
+*/
+Then('I am on the Inventory page', { timeout: 5000 }, async function (this: ICustomWorld) {
   if (!this.page) {
     throw new Error('Page is not initialized')
   }
-  await expect(this.page).toHaveURL('https://www.saucedemo.com/')
+
+  /*
+  await expect(this.page).toHaveURL('https://www.saucedemo.com/inventory.html')
+  */
+
+  // Initialize the Page Object
+  const inventoryPage = new InventoryPage(this.page)
+
+  // Perform the validation
+  // 1. Validate the URL
+  await expect(this.page).toHaveURL('https://www.saucedemo.com/inventory.html')
+  await inventoryPage.validateOnPage()
   //console.log('Current URL is:', this.page.url())
+})
+
+When('I click on the product {string}', async function (this: ICustomWorld, productName: string) {
+  if (!this.page) {
+    throw new Error('Page is not initialized')
+  }
+
+  const inventoryPage = new InventoryPage(this.page)
+  await inventoryPage.clickInventoryItem(productName)
+})
+
+Then('I can see the product description', async function (this: ICustomWorld) {
+  if (!this.page) {
+    throw new Error('Page is not initialized')
+  }
+
+  const inventoryPage = new InventoryPage(this.page)
+
+  // 1. Validate visibility
+  await inventoryPage.verifyDescriptionIsVisible()
+
+  // 2. Optional: Log the text to your console for debugging
+  const text = await inventoryPage.getDescriptionText()
+  console.log(` Validated description:  ${text}`)
+})
+
+Then('I can click on the Add to Cart button', async function (this: ICustomWorld) {
+  if (!this.page) {
+    throw new Error('Page is not initialized')
+  }
+
+  const inventoryPage = new InventoryPage(this.page)
+  await inventoryPage.addProductToCart()
 })
