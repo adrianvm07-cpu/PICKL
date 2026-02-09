@@ -65,6 +65,7 @@ PICKL is a modern BDD test automation boilerplate that combines Playwright's pow
 
 ### 📚 Reference
 
+- [Why BDD?](docs/WHY-BDD.md) - Benefits of BDD and Cucumber for teams
 - [Writing Tests](docs/WRITING-TESTS.md) - Gherkin syntax and feature file basics
 - [API Reference](docs/API-REFERENCE.md) - Complete API documentation
 - [Architecture](docs/ARCHITECTURE.md) - Framework patterns and internals
@@ -78,12 +79,12 @@ PICKL is a modern BDD test automation boilerplate that combines Playwright's pow
 - [Pull Request Guide](docs/PULL-REQUEST.md) - PR best practices
 - [Naming Convention](docs/NAMING-CONVENTION.md) - Code naming standards
 
-### � Security
+### 🔒 Security
 
 - [Secrets Management](docs/SECRETS-MANAGEMENT.md) - Handling sensitive data and environment variables
 - [Security Policy](SECURITY.md) - Vulnerability reporting and security measures
 
-### �🔧 Support
+### 🔧 Support
 
 - [Troubleshooting](docs/TROUBLESHOOTING.md) - Solutions for common errors
 
@@ -96,6 +97,13 @@ cd PICKL
 
 # Install dependencies
 npm install
+
+# Install Playwright browsers (required!)
+npx playwright install
+
+# Create your local environment file
+cp .env.example .env    # Mac/Linux
+copy .env.example .env  # Windows
 
 # Run all tests
 npm test
@@ -139,9 +147,9 @@ git push origin HEAD
 
 ## 📦 Tech Stack
 
-- **Playwright** v1.56.1 - Browser automation
-- **Cucumber** v12.2.0 - BDD test framework
+- **Playwright** v1.58.0 - Browser automation
+- **Cucumber** v12.6.0 - BDD test framework
 - **TypeScript** v5.9.3 - Type-safe JavaScript
 - **cucumber-html-reporter** v7.2.0 - HTML report generation
-- **tsx** v4.20.6 - TypeScript execution
+- **tsx** v4.21.0 - TypeScript execution
 - **ESLint** + **Prettier** - Code quality tools

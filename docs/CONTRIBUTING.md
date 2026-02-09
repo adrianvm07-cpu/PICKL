@@ -157,15 +157,26 @@ nvm use
 # Install dependencies
 npm install
 
-# Copy environment template
-cp .env.example .env
+# Install Playwright browsers
+npx playwright install
 
-# Verify setup by running tests
+# Create your local environment file
+cp .env.example .env    # Mac/Linux
+copy .env.example .env  # Windows
+
+# Verify setup
 npm test
 
-# Generate and view report
+# Generate report
 npm run report
 ```
+
+**About `.env` vs `.env.example`:**
+
+- **`.env.example`** - Template committed to Git with safe default values
+- **`.env`** - Your personal config (gitignored, never committed)
+- The `.env` file lets you customize settings locally without affecting other contributors
+- Default values work out of the box - no modifications needed unless customizing
 
 **Git Hooks Setup:**
 
@@ -333,7 +344,7 @@ VS Code will prompt to install these recommended extensions:
 
 ### VS Code Extensions
 
-Install the recommended extensions for the best development experience (see [Getting Started - Extensions](GETTING-STARTED.md#5-finishing-touches)):
+Install the recommended extensions for the best development experience (see [Getting Started - Step 6](GETTING-STARTED.md#step-6-install-vs-code-extensions-recommended)):
 
 - **EditorConfig** - Maintain consistent coding styles
 - **ESLint** - JavaScript/TypeScript linting
@@ -510,8 +521,8 @@ npm run report
 
 **What it does:**
 
-1. Processes test results from `test-results/` directory
-2. Generates HTML report in `playwright-report/` directory
+1. Processes test results from `test-results/cucumber-report.json`
+2. Generates HTML report in `test-results/html-report/`
 3. Automatically opens report in default browser
 
 **When to use:**
