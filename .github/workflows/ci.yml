@@ -242,7 +242,7 @@ jobs:
         run: npm run test:coverage
         continue-on-error: true
         env:
-          BASE_URL: https://the-internet.herokuapp.com
+          BASE_URL: https://www.saucedemo.com
 
       - name: Verify only expected test failed
         run: |
@@ -502,7 +502,7 @@ jobs:
         run: npm test
         continue-on-error: true # External test site may be unreachable
         env:
-          BASE_URL: https://the-internet.herokuapp.com
+          BASE_URL: https://www.saucedemo.com
           TAGS: not @skip
 
       - name: Generate HTML report
