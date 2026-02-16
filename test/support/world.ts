@@ -1,4 +1,4 @@
-import { World, IWorldOptions } from '@cucumber/cucumber'
+import { IWorldOptions, World } from '@cucumber/cucumber'
 import { BrowserContext, Page } from '@playwright/test'
 
 /**
@@ -10,6 +10,11 @@ export interface ICustomWorld extends World {
   page?: Page
   /** Playwright BrowserContext for managing browser state and cookies */
   context?: BrowserContext
+  // Add this line to resolve the error:
+  expectedCount?: number
+
+  // If you used 'removedCount' in your previous snippet, add that too:
+  removedCount?: number
 }
 
 /**
