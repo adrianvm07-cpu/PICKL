@@ -199,13 +199,8 @@ When('I remove a random number of items from the cart', async function (this: IC
     throw new Error('Page is not initialized')
   }
   const inventoryPage = new InventoryPage(this.page)
-
-  /// Perform the action and capture the math
   const result: { removed: number; remaining: number } = await inventoryPage.removeRandomItems()
-
-  // Store the expected remaining count for the assertion step
   this.expectedCount = result.remaining
-  console.log(`Removed ${result.removed} items. Expecting ${this.expectedCount} left.`)
 })
 Then(
   'the shopping cart badge should reflect the remaining items',
@@ -214,6 +209,7 @@ Then(
       throw new Error('Page is not initialized')
     }
     const inventoryPage = new InventoryPage(this.page)
+
     const actualCount = await inventoryPage.getCartBadgeCount()
 
     if (actualCount !== this.expectedCount) {
