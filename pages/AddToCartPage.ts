@@ -219,38 +219,6 @@ export class InventoryPage {
     await this.cartContainer.waitFor({ state: 'visible' })
     return this.cartItems.count()
   }
-  /*
-  // Randomly select {int} items in the list
-  async clickMultipleRandomProducts(countToSelect: number) {
-    await this.productNames.first().waitFor()
-    const totalCount = await this.productNames.count()
-
-    if (totalCount === 0) {
-      throw new Error('No products found')
-    }
-
-    if (countToSelect > totalCount) {
-      console.warn(`Requested ${countToSelect} items but only ${totalCount} exist. Selecting all.`)
-      countToSelect = totalCount
-    }
-
-    // Use a Set to store unique random indices
-    const indices = new Set<number>()
-    while (indices.size < countToSelect) {
-      const randomIndex = Math.floor(Math.random() * totalCount)
-      indices.add(randomIndex)
-    }
-
-    // Iterate through the unique indices and click 'Add to Cart'
-    for (const index of indices) {
-      // Assuming you have a locator for the 'Add to Cart' buttons
-      // If clicking the product name takes you away from the page,
-      // you'd need to go back or click the specific "Add to Cart" button instead.
-      const product = this.allAddToCartBttns.nth(index)
-      await product.click()
-    }
-  }
-*/
   async clickMultipleRandomProducts(countToSelect: number) {
     // 1. Wait for the items to exist
     await this.inventoryItems.first().waitFor()
