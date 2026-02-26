@@ -15,6 +15,9 @@ export interface ICustomWorld extends World {
 
   // If you used 'removedCount' in your previous snippet, add that too:
   removedCount?: number
+
+  // totalPrice for checkout
+  totalPrice?: number
 }
 
 /**

@@ -4,7 +4,7 @@ import { expect, Locator, Page } from '@playwright/test'
  * Page Object Model for the Login page
  * URL: https://www.saucedemo.com/
  */
-export class InventoryPage {
+export class CheckOutPage {
   readonly page: Page
   readonly usernameInput: Locator
   readonly passwordInput: Locator
@@ -21,6 +21,17 @@ export class InventoryPage {
   readonly cartContainer: Locator
   readonly cartItems: Locator
   readonly inventoryItems: Locator
+  readonly checkOutBttn: Locator
+  readonly checkOutFirstName: Locator
+  readonly checkOutLastName: Locator
+  readonly checkOutZipCode: Locator
+  readonly continueBttn: Locator
+  readonly finishBttn: Locator
+  readonly inventoryItemPrice: Locator
+  readonly checkOutSubtotal: Locator
+  readonly itemPrice: Locator
+  readonly checkoutTitle: Locator
+  readonly completeHeader: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -29,8 +40,6 @@ export class InventoryPage {
     this.loginButton = page.locator('[data-test="login-button"]')
     this.inventoryContainer = page.locator('[data-test="inventory-container"]')
     this.productDescription = page.locator('[data-test="inventory-item-desc"]')
-    //this.addToCartButton = page.locator('button:has-text("Add to cart")')
-    //this.addToCartButton = page.locator('button[data-test^="add-to-cart"]')
     this.addToCartButton = page.locator(
       '[data-test="add-to-cart-sauce-labs-backpack"], [data-test="add-to-cart"]',
     )
@@ -43,6 +52,17 @@ export class InventoryPage {
     this.cartContainer = page.locator('#cart_contents_container')
     this.cartItems = page.locator('.cart_item')
     this.inventoryItems = page.locator('.inventory_item')
+    this.checkOutBttn = page.locator('[data-test="checkout"]')
+    this.checkOutFirstName = page.locator('[data-test="firstName"]')
+    this.checkOutLastName = page.locator('[data-test="lastName"]')
+    this.checkOutZipCode = page.locator('[data-test="postalCode"]')
+    this.continueBttn = page.locator('[data-test="continue"]')
+    this.finishBttn = page.locator('[data-test="finish"]')
+    this.inventoryItemPrice = page.locator('.inventory_item_price')
+    this.checkOutSubtotal = page.locator('[data-test="subtotal-label"]')
+    this.itemPrice = page.locator('[data-test="inventory-item-price"]')
+    this.checkoutTitle = page.locator('data-test="title"')
+    this.completeHeader = page.locator('.complete-header')
   }
 
   // 1. Navigate to the site
@@ -57,7 +77,6 @@ export class InventoryPage {
   async enterUsername() {
     // await this.usernameInput.fill(username)
     await this.usernameInput.fill('standard_user')
-    await this.page.waitForTimeout(3000)
   }
 
   /**
@@ -67,7 +86,6 @@ export class InventoryPage {
   async enterPassword() {
     // await this.passwordInput.fill(password)
     await this.passwordInput.fill('secret_sauce')
-    await this.page.waitForTimeout(3000)
   }
 
   /**
@@ -75,13 +93,20 @@ export class InventoryPage {
    */
   async clickLogin() {
     await this.loginButton.click()
-    await this.page.waitForTimeout(3000)
   }
 
   // Validate if on the correct page after login
   async validateOnPage() {
     // 2. Validate a unique element exists on this page
     await expect(this.inventoryContainer).toBeVisible()
+  }
+
+  // Validate if on the correct page after login
+  async validateOnCheckoutPage() {
+    // 2. Validate a unique element exists on this page
+
+    // 1. Verify URL first
+    await expect(this.page).toHaveURL(/.*checkout-step-one.html/)
   }
 
   // Select an item from the Inventory list
@@ -166,7 +191,7 @@ export class InventoryPage {
     await this.removeBttn.click()
   }
 
-  // Validate "Remove" button is visible
+  // Validate "Add to Cart" button is visible
   async validateAddToCartBttnIsVisible() {
     await expect(this.addToCartButton).toBeVisible()
   }
@@ -276,5 +301,78 @@ export class InventoryPage {
       return parseInt(text, 10)
     }
     return 0 // If badge is hidden, count is 0
+  }
+
+  // Checkout - Click on Continue button
+  async clickCheckOutbttn() {
+    await this.checkOutBttn.click()
+  }
+
+  // Checkout FirstName
+  async enterFirstName() {
+    // await this.usernameInput.fill(username)
+    await this.checkOutFirstName.fill('testtesttest')
+  }
+
+  // Checkout LastName
+  async enterLastName() {
+    // await this.usernameInput.fill(username)
+    await this.checkOutLastName.fill('spamspamspam')
+  }
+
+  // Checkout Zipcode
+  async enterZipCode() {
+    await this.checkOutZipCode.fill('1346')
+  }
+
+  // Checkout - Click on Continue button
+  async clickContinue() {
+    await expect(this.continueBttn).toBeVisible()
+    await this.continueBttn.click()
+  }
+
+  // Checkout - Click on Finish button
+  async clickFinish() {
+    // Ensure the button is not just there, but ready for input
+    await this.finishBttn.scrollIntoViewIfNeeded()
+    await expect(this.finishBttn).toBeVisible()
+    await expect(this.finishBttn).toBeEnabled()
+
+    await this.finishBttn.click()
+  }
+
+  // Get price of Item
+  async addItemAndPrice(): Promise<number> {
+    await expect(this.addToCartButton).toBeVisible()
+
+    // 1. Fetch the price text (e.g., "$29.99")
+    const priceText = await this.itemPrice.first().innerText()
+
+    // 2. Convert to number (removing the '$' sign)
+    const priceValue = parseFloat(priceText.replace('$', ''))
+
+    // 3. Perform the click
+    await this.addToCartButton.click()
+
+    return priceValue
+  }
+
+  // Get Checkout Subtotal
+  async getCheckoutSubtotal(): Promise<number> {
+    const subtotalText = await this.checkOutSubtotal.innerText()
+    const parts = subtotalText.split('$')
+
+    if (parts.length < 2) {
+      throw new Error(`Could not find currency symbol in subtotal text: "${subtotalText}"`)
+    }
+
+    // The '!' tells the compiler: "Trust me, I checked the length, this exists."
+    return parseFloat(parts[1]!)
+  }
+
+  // Valid order - validate Thank you message is displayed
+  async validateConfirmationMessage(expectedMessage: string) {
+    // toHaveText is "web-first": it waits and ignores extra whitespace
+    await expect(this.completeHeader).toHaveText(expectedMessage)
   }
 }

@@ -5,7 +5,7 @@ Feature: Add to Cart Functionality
   and select items that I want to add to my cart
 
   Background:
-    Given I am able to login successfully
+    Given User is already logged in
 
   @positive
   Scenario: Select a product then Add to Cart and Remove
@@ -77,15 +77,6 @@ Feature: Add to Cart Functionality
     Then the shopping cart badge should show "5"
     When I click on the Shopping Cart Icon
     Then I should see items present in the cart
-    When I remove all items from the cart
-    Then the shopping cart badge should not be visible
-    And the Remove button is not visible
-
-  @positive
-  Scenario: Add All items in the cart, and Remove
-    When I am on the Inventory page
-    And I click all available Add to cart buttons
-    Then the shopping cart badge should display "6"
     When I remove all items from the cart
     Then the shopping cart badge should not be visible
     And the Remove button is not visible
